@@ -8,6 +8,10 @@
     box-sizing: inherit;
 }
 
+body{
+    background-color: honeydew;
+}
+
 .displayDiv{
     background-color: gray;
     width:500px;
