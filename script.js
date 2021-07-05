@@ -86,7 +86,8 @@ const gameBoard = (() => {
         
         if(winner!='none') {
             win(winner);
-            return true;
+            if(winner=='X') return -1;
+            if(winner=='0') return 1;
         }
         return false;
     }
