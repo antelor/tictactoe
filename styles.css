@@ -36,9 +36,18 @@ body{
 
 .winnerDiv{
     position:absolute;
-    top: 25%;
+    top: 70%;
     left: 42%;
     background-color: hotpink;
     font-size: 50px;
     padding: 1em;
+}
+
+.resetBtn{
+    position:absolute;
+    top: 90%;
+    left: 47%;
+    background-color: lightblue;
+    font-size: 20px;
+    padding: 0.5em;
 }

@@ -9,6 +9,8 @@ const gameBoard = (() => {
 
     const getTurn = () => turn;
 
+    const moveTurn = () => turn++;
+
     const getBoard = () => boardArr;
 
     const changeCell = (index, value) => {
@@ -24,8 +26,14 @@ const gameBoard = (() => {
             else{
                 changeCell(e.target.getAttribute("cellIndex"), '0');
             }
-            turn++;
+            moveTurn();
         }
+
+        if(!winCheck()){
+            Computer.move();
+            winCheck();
+        }
+        
     }
 
     const winCheck = () =>{
@@ -76,7 +84,24 @@ const gameBoard = (() => {
             if(boardArr[2]!=' ' && boardArr[4]!=' ' && boardArr[6]!=' ') winner = boardArr[2];
         } 
         
-        if(winner!='none') win(winner);
+        if(winner!='none') {
+            win(winner);
+            return true;
+        }
+        return false;
+    }
+
+    const reset = () =>{
+        boardArr = [
+            ' ',' ',' ',
+            ' ',' ',' ',
+            ' ',' ',' ',
+        ];
+        document.querySelector('[class=winnerDiv]').parentElement.removeChild(document.querySelector('[class=winnerDiv]'));
+        document.querySelector('[class=resetBtn]').parentElement.removeChild(document.querySelector('[class=resetBtn]'));
+
+        turn = 0;
+        displayController.render();
     }
 
     const win = (winner) =>{
@@ -88,9 +113,15 @@ const gameBoard = (() => {
         if(winner=='0') winnerDiv.textContent = "Gana la computadora";
         if(winner=='tie') winnerDiv.textContent = "Empate";
         document.querySelector('body').appendChild(winnerDiv);
+
+        const resetBtn = document.createElement('button');
+        resetBtn.classList.add('resetBtn');
+        resetBtn.textContent = "Reiniciar";
+        document.querySelector('body').appendChild(resetBtn);
+        resetBtn.addEventListener('click', reset);
     }
 
-    return {getTurn, getBoard, changeCell, clickHandler, winCheck}
+    return {getTurn, getBoard, changeCell, clickHandler, winCheck, moveTurn}
 })();
 
 const displayController =  (() => {
@@ -113,7 +144,6 @@ const displayController =  (() => {
 
             displayDivCell.addEventListener('click', gameBoard.clickHandler);
         }
-        gameBoard.winCheck();
     };
 
     const stopListeners = () =>{
@@ -128,9 +158,21 @@ const displayController =  (() => {
     return {init, render, stopListeners}
 })();
 
-const Players = () =>{
+const Computer = (() =>{
+    const move = () =>{
+        let choice = -1;
+        while(choice == -1){
+            let possibleMove = Math.floor(Math.random() * 8);
+            if(gameBoard.getBoard()[possibleMove] == ' ' && gameBoard.getBoard()[possibleMove] != 'X'){
+                choice = possibleMove;
+            }
+        }
+ 
+        gameBoard.changeCell(choice, '0');
+        gameBoard.moveTurn();
+    }
 
-    return {}
-}
+    return {move}
+})();
 
 displayController.init();
