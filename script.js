@@ -76,10 +76,18 @@ const gameBoard = (() => {
             if(boardArr[2]!=' ' && boardArr[4]!=' ' && boardArr[6]!=' ') winner = boardArr[2];
         } 
         
-        if(winner!='none') {
-            console.log(winner);
-            displayController.stopListeners();
-        }
+        if(winner!='none') win(winner);
+    }
+
+    const win = (winner) =>{
+        console.log(winner);
+        displayController.stopListeners();
+        const winnerDiv = document.createElement('div');
+        winnerDiv.classList.add('winnerDiv');
+        if(winner=='X') winnerDiv.textContent = "Ganaste";
+        if(winner=='0') winnerDiv.textContent = "Gana la computadora";
+        if(winner=='tie') winnerDiv.textContent = "Empate";
+        document.querySelector('body').appendChild(winnerDiv);
     }
 
     return {getTurn, getBoard, changeCell, clickHandler, winCheck}
@@ -104,8 +112,8 @@ const displayController =  (() => {
             displayDiv.appendChild(displayDivCell);
 
             displayDivCell.addEventListener('click', gameBoard.clickHandler);
-            gameBoard.winCheck();
         }
+        gameBoard.winCheck();
     };
 
     const stopListeners = () =>{

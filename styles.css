@@ -33,3 +33,12 @@ body{
 
     font-size: 50px;
 }
+
+.winnerDiv{
+    position:absolute;
+    top: 25%;
+    left: 42%;
+    background-color: hotpink;
+    font-size: 50px;
+    padding: 1em;
+}
